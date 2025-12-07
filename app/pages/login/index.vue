@@ -1,5 +1,7 @@
 <script lang="ts" setup>
     import { ref } from 'vue';
+    import VButton from '~/components/ui/v-button.vue';
+    import VInput from '~/components/ui/v-input.vue';
     import { loginService } from '~/services/auth/auth.service';
 import type { ErrorFetch } from '~~/shared/types/ui/errors';
     const router = useRouter();
@@ -18,7 +20,7 @@ import type { ErrorFetch } from '~~/shared/types/ui/errors';
                 isThere: false
             }
             console.log("data in success", data);
-            router.push('/books');
+            router.push('/dashboard');
         })
         .catch(e=>{
             error.value = {
@@ -27,14 +29,32 @@ import type { ErrorFetch } from '~~/shared/types/ui/errors';
             }
         })
     }
+
+    const handleEmail = (event: any) => {
+        console.log("event0", event.target?.value);
+        
+        email.value = event?.target?.value;
+    }
+
+    const handlePassowrd = (event: any) => {
+        console.log("event0", event.target?.value);
+        
+        password.value = event?.target?.value;
+    }
+
+    watch(email, ()=>{
+        console.log("email", email.value);
+        
+    })
 </script>
 <template>
     <div>
         <div v-if="error.isThere">Error</div>
+        <p>{{ email }}</p>
         <form class="flex flex-col" >
-            <UiInput :value="email" />
-            <UiInput type="password" :value="password" />
-            <UiButton @click.prevent="handleLogin" type="button">das</UiButton>
+            <VInput v-model="email" @input="handleEmail" />
+            <VInput type="password" v-model="password" @input="handlePassowrd" />
+            <VButton @click.prevent="handleLogin" type="button">das</VButton>
         </form>
     </div>
 </template>

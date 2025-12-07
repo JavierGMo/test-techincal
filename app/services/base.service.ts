@@ -1,9 +1,7 @@
-import { FetchError } from "~/handlers/errors/FetchError.handler";
-
 interface BaseRequestParams {
     path: string,
     body?: Object
-    method?: string
+    method?: "GET" | "HEAD" | "PATCH" | "POST" | "PUT" | "DELETE" | "CONNECT" | "OPTIONS" | "TRACE" | "get" | "head" | "patch" | "post" | "put" | "delete" | "connect" | "options" | "trace"
 }
 
 export const baseRequest = async <T>({
@@ -11,17 +9,14 @@ export const baseRequest = async <T>({
     body,
     method = 'GET'
 }: BaseRequestParams) => {
-    const request = await fetch(path, {
+    console.log("body", body ? JSON.stringify(body) : undefined);
+    const request: T = await $fetch(path, {
         method,
-        body: body ? JSON.stringify(body) : undefined,
+        body: body ? body : undefined,
     });
 
-    if(request.status!==200) {
-        const text = await request.text();
-        throw new FetchError(text, request.status);
-    }
+    console.log("req", request);
 
-    const data: T = await request.json();
-
-    return data;
+    return request;
+    
 }

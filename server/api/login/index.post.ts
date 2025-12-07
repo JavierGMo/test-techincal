@@ -1,8 +1,8 @@
 export default defineEventHandler(async (event)=>{
-    const { email, password } = await readBody(event);
-    console.log("<<<<<<<<<<<<<<Hi there>>>>>>>>>>>>>>>>");
+    const body = await readBody(event);
+    console.log("<<<<<<<<<<<<<<Hi there>>>>>>>>>>>>>>>>", typeof body, body.email, body.password,);
     
-    if(!email || !password)
+    if(!body.email || !body.password)
         throw createError({
             statusCode: 400,
             statusMessage: 'Error in email or password. Check it'
@@ -10,7 +10,7 @@ export default defineEventHandler(async (event)=>{
 
     return {
         name: 'Foo Bar',
-        email,
+        email: body.email,
         success: true
     };
 });

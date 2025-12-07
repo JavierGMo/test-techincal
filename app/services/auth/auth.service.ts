@@ -7,6 +7,8 @@ interface DataLogin {
 }
 
 export const loginService = async (email: string, password: string) => {
+    console.log("values for form", email, password);
+    
     try{
         const data = await baseRequest<DataLogin>({
             path: '/api/login',
