@@ -15,5 +15,5 @@ export interface ResponseBooks {
     numFound?: number
     start?: number
     numFoundExact?: boolean
-    docs?: BookDescription[]
+    docs: BookDescription[]
 }

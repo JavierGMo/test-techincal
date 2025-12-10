@@ -12,7 +12,7 @@ export const baseRequest = async <T>({
     console.log("body", body ? JSON.stringify(body) : undefined);
     const request: T = await $fetch(path, {
         method,
-        body: body ? body : undefined,
+        body,
     });
 
     console.log("req", request);

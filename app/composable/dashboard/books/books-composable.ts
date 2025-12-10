@@ -1,4 +1,4 @@
-import type { ResponseBooks } from "~~/shared/types/dashboard/book"
+import type { ResponseBooks } from "~~/shared/types/books/book"
 
 interface UseQueryParamsBooks {
     limit?: number
@@ -8,7 +8,9 @@ interface UseQueryParamsBooks {
 
 }
 
-interface UseBooksParams extends UseQueryParamsBooks{}
+interface UseBooksParams{
+    queryParam: string
+}
 
 
 export const useQueryParamsBooks = (props: UseQueryParamsBooks) => {
@@ -31,21 +33,29 @@ export const useQueryParamsBooks = (props: UseQueryParamsBooks) => {
 
 
 
-export const useBooks = (props: UseBooksParams) => {
+export const useBooks = ({ queryParam }: UseBooksParams) => {
     const url = 'https://openlibrary.org/search.json'
-    const {  queryAsString } = useQueryParamsBooks(props)
-    const urlToRefetch = ref(`${url}?${queryAsString.value}`)
+    
+    const urlToRefetch = ref(`${url}?${queryParam}`)
     const { data, execute, error } = useFetch<ResponseBooks>(urlToRefetch, {
         immediate: false
     });
+    
 
-    watch(props, ()=>{
+    watch(urlToRefetch, ()=>{
+        console.log(">>>watcher");
+        
         execute()
     })
 
+    const setQueryParam = (query: string) => {
+        urlToRefetch.value = query;
+    };
+
     return {
         data,
-        error
+        error,
+        setQueryParam
     }
     
     

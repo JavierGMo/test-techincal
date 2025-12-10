@@ -7,9 +7,7 @@
     }
     const {
         authors,
-    } = withDefaults(defineProps<BookItemProps>(), {
-        image: '/img/not-found.png'
-    })
+    } = defineProps<BookItemProps>()
 
     const firstAuthor = ref('');
     const restAuthors = ref<Array<string>>([])
