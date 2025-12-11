@@ -24,7 +24,8 @@ export const useBookStore = defineStore('BookStore', {
             },
             filters: {
                 page: 0,
-                limit: 10
+                limit: 10,
+                search: []
             },
             canSearch: false,
             fullQueryParam: '',

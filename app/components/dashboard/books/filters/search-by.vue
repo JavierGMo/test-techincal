@@ -5,7 +5,8 @@ import type { SearchBy } from '~~/shared/types/books/filter'
 const {
     setSearchesBy,
     setFilters,
-    getFilters
+    getFilters,
+    setSearcheasFilter
 } = useBookStore()
 const filterState = ref<string>('q')
 const model = ref<Array<string>>([])
@@ -15,51 +16,61 @@ const handleChangeFilters = () => {
     
     
     const searches: Array<SearchBy> = []
+    let searchBy: SearchBy = {
+        nameSearch: SearchByEnum.Q,
+        value: ''
+    };
     model.value.forEach(m => {
-        const filteredByNot = getFilters.search?.filter(v=>v.nameSearch !== m);//brute force :(
+        // const filteredByNot = getFilters.search?.filter(v=>v.nameSearch !== m);//brute force :(
         switch (m) {
             case SearchByEnum.Author:
+                searchBy.nameSearch = SearchByEnum.Author;
+                searchBy.value = '';
                 searches.push({
                     nameSearch: SearchByEnum.Author,
                     value: '',
                 });
                 break;
             case SearchByEnum.Q:
+                searchBy.nameSearch = SearchByEnum.Q;
+                searchBy.value = '';
                 searches.push({
                     nameSearch: SearchByEnum.Q,
                     value: ''
                 });
                 break;
             case SearchByEnum.Title:
+                searchBy.nameSearch = SearchByEnum.Title;
+                searchBy.value = '';
                 searches.push({
                     nameSearch: SearchByEnum.Title,
                     value: ''
                 });
                 break;
             case SearchByEnum.Language:
+                searchBy.nameSearch = SearchByEnum.Language;
+                searchBy.value = '';
                 searches.push({
                     nameSearch: SearchByEnum.Language,
                     value: ''
                 });
                 break;
             default:
+                searchBy.nameSearch = SearchByEnum.Q;
+                searchBy.value = '';
                 searches.push({
                     nameSearch: SearchByEnum.Q,
                     value: ''
                 });
                 break;
         }
-        if(filteredByNot !== undefined) {
-            filteredByNot.forEach(f=>{
-                searches.push(f)
-            })
-        }
+        
     })
     console.log("searches add aded", searches);
-    
-    setFilters({
-        search: searches
-    })
+    // setSearcheasFilter(searchBy);
+    // setFilters({
+    //     search: searches
+    // })
     setSearchesBy(searches);
 }
 
