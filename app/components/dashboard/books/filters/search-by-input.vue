@@ -23,42 +23,23 @@ import type { GeneralType } from '~~/shared/types/global';
         },
     })
 
+    const s = ref('')
+
     const handleSomeInputs = (search: string, event: any) => {
-        console.log("huevosdasdhas jd", inputsByFilter.value);
+        console.log("huevosdasdhas jd", getSearchesBy.value, event.target?.value);
         
         if(!event.target?.value) return;
-        if(!Array.isArray(inputsByFilter.value)) return;
-        console.log("value in multiple pr", valueInputs.value[search]);
-        const copyInputs = [...inputsByFilter.value]
-        //valueInputs.value[search].value = event.target.value;
-        const foundInput = copyInputs.find(input=>input.nameSearch === search);
-        const filtered = copyInputs.filter(input=>input.nameSearch!==search);
-        const mapped = filtered.map<SearchBy>(m=>{
-            return {
-                nameSearch: m.nameSearch,
-                value: m.value
-            }
-        })
-        const value = foundInput === undefined ? event.target?.value : `${foundInput.value}${event.target?.value}`
-        const currentSearch:SearchBy = { nameSearch: search, value }
-        const allValues = [...mapped, currentSearch];
-        console.log("allvalues====>", allValues);
+        console.log("value");
         
-        booksStore.setFilters({
-            search: allValues
-        })
-        /*valueInputs.value = {
-            ...valueInputs.value,
-            [search]: { ...valueInputs.value[search], value: event.target.value }
-        }
-        const onlyValues = Object.values(valueInputs.value)
-        console.log("only values", onlyValues);
-        
-        booksStore.setFilters({
-            search: onlyValues
-        })*/
+        booksStore.setSearcheasFilter({
+            nameSearch: search,
+            value: event.target?.value
+        });
     }
+    const handle = (e: any) => {
 
+        console.log("new valuedasdg ahsd", e);
+    }
     watch(getSearchesBy, (newValue) => {
         if(!Array.isArray(newValue)) return;
         inputsByFilter.value = newValue
@@ -68,12 +49,13 @@ import type { GeneralType } from '~~/shared/types/global';
 
 <template>
     <div>
-        <template v-for="search in inputsByFilter">
+        
+        <template v-for="search in getSearchesBy">
             <VInput
                 :id="search.nameSearch"
                 :name="search.nameSearch"
                 v-model="search.value"
-                
+                @input="(e)=>handleSomeInputs(search.nameSearch, e)"
                 :placeholder="`Search by ${search.nameSearch}`"
             />
         </template>

@@ -30,6 +30,8 @@ export const generateSearchBy = (searchs: Array<SearchBy>) => {
 }
 
 export const createQueryParams = (filters: FilterSearchBook) => {
+    console.log("filters)====> are creating...", filters);
+    
     let fullQueryParam = ``;
     if(filters.search) fullQueryParam += `${generateSearchBy(filters.search)}`;
     if(filters.limit && filters.page) fullQueryParam += `page=${filters.page}&limit=${filters.limit}`;

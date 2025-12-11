@@ -22,11 +22,10 @@
         const lenSearchersBy = getSearchesBy.value?.length === undefined ? 0 : getSearchesBy.value.length;
         console.log("getseachersvby===>", getSearchesBy.value);
         
-        if(lenSearchersBy>0){
-            bookStore.setFilters({
+        if(lenSearchersBy<=0){
+            /*bookStore.setFilters({
                 search: getSearchesBy.value
-            })
-        }else{
+            })*/
             bookStore.setFilters({
                 search: [{ nameSearch: 'q', value: query.value }]
             })

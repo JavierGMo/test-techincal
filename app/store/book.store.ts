@@ -49,6 +49,9 @@ export const useBookStore = defineStore('BookStore', {
                 ...this.$state.filters,
                 ...filters
             };
+
+            console.log("filters===>", this.$state.filters);
+            
         },
         setBooks(books: Array<BookDescription>) {
             this.$state.result.docs = books;
@@ -67,6 +70,18 @@ export const useBookStore = defineStore('BookStore', {
         },
         setSearchesBy(searchs: Array<SearchBy>){
             this.$state.searchesBy = searchs;
+        },
+        setSearcheasFilter(search: SearchBy){
+            console.log("search in setSearcheasFilter *****", search, this.$state.filters.search === undefined, !search.value);
+            
+            //this.$state.searchesBy = searches
+            if(this.$state.filters.search === undefined || !search.value) return;
+            const filtered = this.$state.filters.search.filter(s=>s.nameSearch!==search.nameSearch);
+            console.log("pase el pirmer filtro", filtered);
+            
+            console.log("pae los filtrossearch in setSearcheasFilter *****", search);
+            const newSearches = [...filtered, search]
+            this.$state.filters.search = newSearches
         },
         async fetchBooks() {
             const url = 'https://openlibrary.org/search.json'
