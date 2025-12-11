@@ -29,13 +29,18 @@ export const generateSearchBy = (searchs: Array<SearchBy>) => {
     return querySort
 }
 
+export const ifThereURL = (url: string, newSegment: string) => {
+    if(!url) return `${newSegment}&`;
+    return newSegment
+}
+
 export const createQueryParams = (filters: FilterSearchBook) => {
     console.log("filters)====> are creating...", filters);
     
     let fullQueryParam = ``;
-    if(filters.search) fullQueryParam += `${generateSearchBy(filters.search)}`;
-    if(filters.limit && filters.page) fullQueryParam += `page=${filters.page}&limit=${filters.limit}`;
-    if(filters.sort) fullQueryParam += `sort=${generateSortBy(filters.sort)}`;
+    if(filters.search) fullQueryParam += ifThereURL(fullQueryParam, `${generateSearchBy(filters.search)}`);
+    if(filters.limit && filters.page) fullQueryParam += ifThereURL(fullQueryParam, `page=${filters.page}&limit=${filters.limit}`);
+    if(filters.sort) fullQueryParam += ifThereURL(fullQueryParam, `sort=${generateSortBy(filters.sort)}`);
 
     if(fullQueryParam) fullQueryParam = `?${fullQueryParam}`
 

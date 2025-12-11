@@ -26,11 +26,12 @@
 </script>
 
 <template>
-    <div class="">
-        <label>Sort by title: </label>
+    <div class="form-group">
+        <label class="label">Sort by title: </label>
         <select
             :value="selectedSort.sortBy"
             @change="handleChange"
+            class="select"
         >
             <option v-for="sort in SearchsSorts" :value="sort.sortBy">{{ sort.label }}</option>
         </select>

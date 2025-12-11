@@ -26,8 +26,10 @@
 </script>
 
 <template>
-    <img :src="image" :alt="title"/>
-    <p>{{ title }}</p>
-    <p>{{ firstAuthor }}</p>
-    <p>{{ publishYear }}</p>
+    <div class="card card-hover">
+        <img :src="image" :alt="title"/>
+        <p>Title: {{ title }}</p>
+        <p>Author: {{ firstAuthor }}</p>
+        <p>Publish year: {{ publishYear }}</p>
+    </div>
 </template>

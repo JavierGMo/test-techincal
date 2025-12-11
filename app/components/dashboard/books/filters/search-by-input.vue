@@ -57,6 +57,7 @@ import type { GeneralType } from '~~/shared/types/global';
                 v-model="search.value"
                 @input="(e)=>handleSomeInputs(search.nameSearch, e)"
                 :placeholder="`Search by ${search.nameSearch}`"
+                class="input mb-3"
             />
         </template>
     </div>

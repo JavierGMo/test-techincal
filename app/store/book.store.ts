@@ -14,6 +14,7 @@ interface BookState {
     fullQueryParam: string
     errorFetchBooks: string
     searchesBy?: Array<SearchBy>
+    isLoading: boolean
 }
 
 export const useBookStore = defineStore('BookStore', {
@@ -30,7 +31,8 @@ export const useBookStore = defineStore('BookStore', {
             canSearch: false,
             fullQueryParam: '',
             errorFetchBooks: '',
-            searchesBy: []
+            searchesBy: [],
+            isLoading: false,
         };
     },
     getters: {
@@ -42,7 +44,26 @@ export const useBookStore = defineStore('BookStore', {
         },
         getCanSearch: state => state.canSearch,
         getErrorFetchBooks: state=>state.errorFetchBooks,
-        getSearchesBy: state=>state.searchesBy
+        getSearchesBy: state=>state.searchesBy,
+        getTotalPages: state=>{
+            if(!state.result.numFound || !state.filters.limit) return 0;
+            const total = Math.ceil(state.result.numFound / state.filters.limit)
+            return total;
+        },
+        getCurrentPage: state=>{
+            if(!state.filters.page) return 0;
+            return state.filters.page;
+        },
+        getOffset: state=>{
+            if(!state.filters.page || !state.filters.limit) return 0
+            const offset = (state.filters.page -1) * state.filters.limit;
+            return offset;
+        },
+        getVisiblePages: state=>{
+            if(!state.filters.page || !state.filters.limit) return 0;
+
+        },
+        getIsLoading: state=>state.isLoading
     },
     actions: {
         setFilters(filters: FilterSearchBook) {
@@ -84,16 +105,24 @@ export const useBookStore = defineStore('BookStore', {
             const newSearches = [...filtered, search]
             this.$state.filters.search = newSearches
         },
+        setIsLoading(isLoading: boolean) {
+            this.$state.isLoading = isLoading;
+        },
         async fetchBooks() {
             const url = 'https://openlibrary.org/search.json'
             this.$state.errorFetchBooks = '';
+            this.$state.isLoading = true;
             getBooks(`${url}${this.$state.fullQueryParam}`)
             .then(data=>{
                 this.$state.result = data;
                 this.$state.errorFetchBooks = '';
+                this.$state.isLoading = false;
             })
             .catch(err=>{
+                console.error(err);
+                
                 this.$state.errorFetchBooks = 'Vaya, parece que un error ocurrio, intente mas tarde.';
+                this.$state.isLoading = false;
             });
         }
     },

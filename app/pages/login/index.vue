@@ -50,11 +50,15 @@ import type { ErrorFetch } from '~~/shared/types/ui/errors';
 <template>
     <div>
         <div v-if="error.isThere">Error</div>
-        <p>{{ email }}</p>
+        <div class="flex justify-center">
+            <p class="text-lg md:text-xl m-4">Sign in</p>
+        </div>
         <form class="flex flex-col" >
-            <VInput v-model="email" @input="handleEmail" />
-            <VInput type="password" v-model="password" @input="handlePassowrd" />
-            <VButton @click.prevent="handleLogin" type="button">das</VButton>
+            <label for="email" class="text-lg">Email: </label>
+            <VInput v-model="email" @input="handleEmail" class="input mb-5" />
+            <label for="email" class="text-lg">Password: </label>
+            <VInput type="password" v-model="password" @input="handlePassowrd" class="input mb-5" />
+            <VButton @click.prevent="handleLogin" type="button" class="btn btn-md btn-secondary">Sign In</VButton>
         </form>
     </div>
 </template>

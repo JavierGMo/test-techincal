@@ -10,7 +10,7 @@
     const query = ref<string>('')
     const bookStore = useBookStore();
 
-    const { getSearchesBy, getFullQueryParam, getFilters } = storeToRefs(bookStore)
+    const { getSearchesBy, getFullQueryParam, getFilters, getIsLoading } = storeToRefs(bookStore)
     const notAreThereFilters = ref(true)
     const handleChangeSearch = (event: any) => {
         if(!event.target?.value) return;
@@ -20,8 +20,9 @@
 
     const handleClickSearch = () => {
         bookStore.setCanSearch(true)
+        
         const lenSearchersBy = getSearchesBy.value?.length === undefined ? 0 : getSearchesBy.value.length;
-        console.log("getseachersvby===>", getSearchesBy.value);
+        
         const currentSearchs: Array<SearchByType> = []
         if(lenSearchersBy<=0){
             bookStore.setFilters({
@@ -38,11 +39,13 @@
             console.log("full query in array", currentSearchs, getFilters.value.search);
             
             bookStore.setFilters({
-                search: currentSearchs
+                search: currentSearchs,
+                page: 1,
+                limit: 10
             })
         }
         bookStore.setFullQueryParam();
-        //bookStore.fetchBooks();
+        bookStore.fetchBooks();
         
     };
 
@@ -67,11 +70,12 @@
                 placeholder="General search of books..."
                 :value="query"
                 @change="handleChangeSearch"
+                class="input"
             />
             <SearchByInput />
         </div>
         <SearchBy />
         <TitleSort />
-        <VButton @click.prevent="handleClickSearch">Buscar libro</VButton>
+        <VButton class="btn btn-md btn-secondary" @click.prevent="handleClickSearch">Buscar libro</VButton>
     </div>
 </template>

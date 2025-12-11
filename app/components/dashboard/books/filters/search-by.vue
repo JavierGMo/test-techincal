@@ -80,8 +80,10 @@ const handleChangeFilters = () => {
 <template>
     <div>
         <template v-for="filter in FiltersOfBooks">
-            <label :for="`${filter.label}`">{{ filter.label }}</label>
-            <input type="checkbox" v-model="model" :value="filter.value" @change="handleChangeFilters" />
+            <label class="checkbox-wrapper" :for="`${filter.label}`">
+                <input type="checkbox" v-model="model" :value="filter.value" @change="handleChangeFilters" class="checkbox" />
+                <span class="checkbox-label">{{ filter.label }}</span>
+            </label>
         </template>
     </div>
 </template>

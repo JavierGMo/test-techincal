@@ -5,9 +5,8 @@
 
     }
     const props = defineProps<InputProps>();
-    const className = `input ${props.class}`;
 </script>
 
 <template>
-    <input :class="className">
+    <input>
 </template>
